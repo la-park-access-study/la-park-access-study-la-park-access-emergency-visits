@@ -1,0 +1,118 @@
+
+== 1. Road network (TIGER/Line 2016 All Lines edges, Los Angeles County) =====================
+  edges in the file: 483044 | road edges (ROADFLG = Y): 399891 
+  road edges by MTFCC feature class:
+
+ S1100  S1200  S1400  S1500  S1630  S1640  S1710  S1720  S1730  S1740  S1750  S1780  S1820  S1830 
+  6122  12657 357472   1107   9037     69    242      2   1089  11122    555    368     43      6 
+  dropped: 6122 primary-road edges and 9037 ramp edges | kept: 384732 
+  ok: every road edge is a single linestring 
+  network length: 31291 miles | zero-length edges: 0 
+  ok: each TIGER node identifier has a single coordinate 
+  nodes: 295437 | edges: 384732 
+  connected parts: 120 | largest: 293898 nodes ( 99.48 % ) | parts with at least 500 nodes: 2 ( sizes 293898, 744 ) | next largest: 341, 40, 22, 21, 21 
+  used: 294642 nodes and 383987 edges; ignored fragments: 795 nodes, 745 edges
+
+== 2. Park access points (the study park layer, 2,509 polygons) ==============================
+  ok: 2,509 recreational-space polygons 
+  access type of the features:
+
+      Open Access Restricted Access    Unknown Access 
+             2230               236                43 
+  park polygons per set: all 2509 | open access 2230 | merged (overlapping features grouped) 2115 | features in a group of two or more: 478 | largest group: 239 
+  ok: open-access subset has 2,230 features; merging reduces the count 
+  2016 county park inventory: features used (all except 'No Public Access'): 2828 
+  ok: 2,343 tracts in tract_exposures.csv 
+  [all] used nodes inside or within 60 m of a park: 34383 pairs | parks with none: 123 | road crossings of park boundaries: 7793 points on 968 parks | nearest used road edge per park: gap (m) median 3.9, 95th percentile 15.1, max 968.6 | parks by network part: 1=2500, 2=9
+  ok: [all] every used part of the network reaches at least three parks 
+  [all] tract centers inside or within 60 m of a park: 170 (74 center-park pairs inside)
+  [open] used nodes inside or within 60 m of a park: 30829 pairs | parks with none: 107 | road crossings of park boundaries: 7223 points on 863 parks | nearest used road edge per park: gap (m) median 3.7, 95th percentile 14.2, max 968.6 | parks by network part: 1=2222, 2=8
+  ok: [open] every used part of the network reaches at least three parks 
+  [open] tract centers inside or within 60 m of a park: 147 (64 center-park pairs inside)
+  [merged] used nodes inside or within 60 m of a park: 33091 pairs | parks with none: 94 | road crossings of park boundaries: 7222 points on 700 parks | nearest used road edge per park: gap (m) median 4.7, 95th percentile 14, max 505.9 | parks by network part: 1=2106, 2=9
+  ok: [merged] every used part of the network reaches at least three parks 
+  [merged] tract centers inside or within 60 m of a park: 170 (74 center-park pairs inside)
+  [pna2016] used nodes inside or within 60 m of a park: 33773 pairs | parks with none: 238 | road crossings of park boundaries: 7688 points on 1037 parks | nearest used road edge per park: gap (m) median 4.1, 95th percentile 37.1, max 860.1 | parks by network part: 1=2821, 2=7
+  ok: [pna2016] every used part of the network reaches at least three parks 
+  [pna2016] tract centers inside or within 60 m of a park: 169 (70 center-park pairs inside)
+
+== 3. Tract origins: Census 2010 population-weighted centers =================================
+  nearest used road edge per tract center: gap (m) median 20.9 | 95th percentile 84.9 | max 2796.9 (tract 06037930301 )
+  tract centers by network part:
+
+   1    2 
+2341    2 
+
+== 4. Shortest paths along the network (Python 3, Dijkstra's algorithm) ======================
+  ok: analysis/network_distance.py is present 
+network: 294642 nodes, 383987 edges
+park access points: 34383 network nodes near parks + 10302 points on the nearest edge; tract centers: 2343; nodes inserted into 8206 edges
+graph built: 308082 nodes
+shortest paths: 921861 node-park labels settled
+wrote network_result_all.csv for 2343 tracts
+  ok: [all] network_distance.py finished without error 
+  ok: [all] one result row per tract, in the same order 
+network: 294642 nodes, 383987 edges
+park access points: 30829 network nodes near parks + 9453 points on the nearest edge; tract centers: 2343; nodes inserted into 7755 edges
+graph built: 307233 nodes
+shortest paths: 919314 node-park labels settled
+wrote network_result_open.csv for 2343 tracts
+  ok: [open] network_distance.py finished without error 
+  ok: [open] one result row per tract, in the same order 
+network: 294642 nodes, 383987 edges
+park access points: 33091 network nodes near parks + 9337 points on the nearest edge; tract centers: 2343; nodes inserted into 7939 edges
+graph built: 307117 nodes
+shortest paths: 918966 node-park labels settled
+wrote network_result_merged.csv for 2343 tracts
+  ok: [merged] network_distance.py finished without error 
+  ok: [merged] one result row per tract, in the same order 
+network: 294642 nodes, 383987 edges
+park access points: 33773 network nodes near parks + 10516 points on the nearest edge; tract centers: 2343; nodes inserted into 8361 edges
+graph built: 308296 nodes
+shortest paths: 922503 node-park labels settled
+wrote network_result_pna2016.csv for 2343 tracts
+  ok: [pna2016] network_distance.py finished without error 
+  ok: [pna2016] one result row per tract, in the same order 
+
+== 5. Checks and output ======================================================================
+  ok: a network distance for every tract in every park set 
+  ok: restricting or merging the park set never shortens the three-park distance 
+  three-park network distance, open-access parks only: median 0.688 miles; r with the all-features measure 0.985
+  three-park network distance, overlapping polygons merged: median 0.654 miles; r with the all-features measure 0.973; tracts whose value changes by more than 0.01 mile: 187
+  three-park network distance to the 2016 county park inventory: median 0.654 miles; r with the study-layer network measure 0.984; r with the straight-line distance to the same inventory from the tract centroid 0.834
+  ok: network distances are never shorter than the straight-line distances from the same centers 
+  network / straight-line ratio (three-park mean, population-weighted center): quantiles
+   0%    5%   25%   50%   75%   95%  100% 
+1.021 1.176 1.291 1.393 1.582 2.241 7.248 
+  three-park network distance (miles): quantiles
+    0%     5%    25%    50%    75%    95%   100% 
+ 0.081  0.279  0.475  0.643  0.856  1.400 18.629 
+  walking time to the three nearest parks at 3 mph (minutes): median 12.9 | quartiles 9.5 - 17.1 
+  Pearson r with the study exposure (geographic centroid, straight line): 0.836; with the straight-line distance from the same centers: 0.886
+  tract centers joined to the road network by more than 0.1 mile: 53 | more than 0.25 mile: 13 
+  written: public-sources/derived/tract_network_distance.csv 
+
+== Done ======================================================================================
+R version 4.6.1 (2026-06-24)
+Platform: aarch64-apple-darwin25.4.0
+Running under: macOS Tahoe 26.6.2
+
+Matrix products: default
+BLAS:   /opt/homebrew/Cellar/openblas/0.3.34/lib/libopenblasp-r0.3.34.dylib 
+LAPACK: /opt/homebrew/Cellar/r/4.6.1/lib/R/lib/libRlapack.dylib;  LAPACK version 3.12.1
+
+locale:
+[1] C.UTF-8/C.UTF-8/C.UTF-8/C/C.UTF-8/C.UTF-8
+
+time zone: America/Los_Angeles
+tzcode source: internal
+
+attached base packages:
+[1] stats     graphics  grDevices utils     datasets  methods   base     
+
+other attached packages:
+[1] sf_1.1-2
+
+loaded via a namespace (and not attached):
+ [1] compiler_4.6.1     class_7.3-23       tools_4.6.1        DBI_1.3.0          otel_0.2.0         units_1.0-1       
+ [7] proxy_0.4-29       Rcpp_1.1.2         KernSmooth_2.23-26 grid_4.6.1         e1071_1.7-17       classInt_0.4-11   

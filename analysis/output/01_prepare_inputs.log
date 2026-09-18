@@ -1,0 +1,101 @@
+
+== 1. Tract layer (CalEnviroScreen 4.0 geometry, 2010 tracts) ================================
+  ok: 2,343 unique tracts 
+  centroids replaced by point-on-surface: 16 
+  ok: recorded distances joined 1:1 
+
+== 2. Recreational Spaces layer (LA County DPH; the layer used in the study) =================
+  ok: 2,509 recreational-space polygons 
+
+      Open Access Restricted Access    Unknown Access 
+             2230               236                43 
+  zero-area polygons: 0 | exact duplicate geometries: 0 | features overlapping at least one other feature: 473 
+
+Agreement of recomputed 3-park mean distance with the recorded study values:
+                 median_abs mean_abs      r within_0.01 within_0.02
+planar_CA_Albers     0.0011   0.0087 0.9961      0.8988      0.9146
+geodesic_s2          0.0011   0.0088 0.9961      0.8976      0.9138
+  ok: recomputed distances reproduce the recorded exposure (r >= 0.99) 
+
+Agreement if distances are measured to park centroids instead of park edges:
+ median_abs    mean_abs           r within_0.01 within_0.02 
+     0.0763      0.1306      0.8912      0.0064      0.0380 
+
+== 3. Population-weighted centroids (Census 2010 centers of population) ======================
+  2010 census tracts in Los Angeles County (Census centers-of-population file): 2346 
+  ok: every study tract has a 2010 center of population 
+  centroid-to-population-center shift (miles): median 0.054 
+
+== 4. Park area within 0.5 and 1 mile of the tract centroid ==================================
+
+== 5. 2016 Park Needs Assessment inventory and half-mile walksheds ===========================
+
+ No Public Access       Open Access Restricted Access    Restricted Use    Unknown Access 
+              207              2405               200                 2               221 
+  2016 features used (all except 'No Public Access'): 2828 
+
+== 6. Write tract exposure table =============================================================
+ recorded_dist3_miles   centroid_x       centroid_y      popcentroid_x    popcentroid_y      dist3_planar     
+ Min.   : 0.0281      Min.   :105514   Min.   :-517711   Min.   :106333   Min.   :-517761   Min.   : 0.02764  
+ 1st Qu.: 0.3132      1st Qu.:149557   1st Qu.:-449357   1st Qu.:149560   1st Qu.:-449380   1st Qu.: 0.31041  
+ Median : 0.4458      Median :159872   Median :-438549   Median :159901   Median :-438587   Median : 0.44345  
+ Mean   : 0.5104      Mean   :161358   Mean   :-437345   Mean   :161355   Mean   :-437371   Mean   : 0.50916  
+ 3rd Qu.: 0.6012      3rd Qu.:171893   3rd Qu.:-427875   3rd Qu.:171938   3rd Qu.:-427918   3rd Qu.: 0.60256  
+ Max.   :10.2431      Max.   :211393   Max.   :-355837   Max.   :211381   Max.   :-355711   Max.   :10.05154  
+ dist3_geodesic     dist1_planar    dist3_popcentroid dist1_popcentroid  acres_0p5mi         acres_1mi      
+ Min.   : 0.0276   Min.   :0.0000   Min.   :0.05345   Min.   :0.0000    Min.   :  0.0000   Min.   :   0.00  
+ 1st Qu.: 0.3107   1st Qu.:0.1327   1st Qu.:0.31613   1st Qu.:0.1392    1st Qu.:  0.9549   1st Qu.:  19.87  
+ Median : 0.4437   Median :0.2596   Median :0.44529   Median :0.2603    Median :  6.7262   Median :  43.32  
+ Mean   : 0.5092   Mean   :0.3129   Mean   :0.49960   Mean   :0.3082    Mean   : 26.1937   Mean   : 118.04  
+ 3rd Qu.: 0.6023   3rd Qu.:0.4178   3rd Qu.:0.59812   3rd Qu.:0.4114    3rd Qu.: 19.5007   3rd Qu.: 111.59  
+ Max.   :10.0465   Max.   :9.5713   Max.   :8.65176   Max.   :7.6592    Max.   :502.4252   Max.   :2009.70  
+ dist3_pna2016     walkshed2016_share popcentroid_in_walkshed2016
+ Min.   :0.02996   Min.   :0.0000     Min.   :0.0000             
+ 1st Qu.:0.31807   1st Qu.:0.1794     1st Qu.:0.0000             
+ Median :0.45150   Median :0.4821     Median :1.0000             
+ Mean   :0.51255   Mean   :0.4975     Mean   :0.5207             
+ 3rd Qu.:0.61249   3rd Qu.:0.8244     3rd Qu.:1.0000             
+ Max.   :7.13932   Max.   :1.0000     Max.   :1.0000             
+
+== 7. Official CalEnviroScreen 4.0 and 3.0 values ============================================
+  ok: 2,343 official CES 4.0 LA tracts match the tract layer 
+  official missing values: asthma 9 | AMI 9 | poverty 38 | PM2.5 0 | ozone 0 
+  ok: Demographic Profile sheet: 2,343 tracts, same populations 
+  official missing age percentages: 16 tracts, all without residents: TRUE 
+  ok: CES 3.0 ozone matched 2,343/2,343 
+
+== 8. ZIP-level inputs (CDPH asthma ED counts; 2010 ZCTA relationships and polygons) =========
+  tracts with no ZCTA (no residents, so not in the primary sample): 06037980020, 06037980003 
+  ok: every tract with residents appears in the ZCTA relationship file 
+  LA ZIPs 2015-2017: 266 | with all three years: 262 
+  LA ZCTA polygons written: 300 
+
+== 9. Percentage uninsured (ACS 2015-2019 5-year, table B27001) ==============================
+  ok: 2,323 LA tracts with a nonzero denominator; 2,322 of the 2,343 study tracts have a value 
+
+== Done ======================================================================================
+R version 4.6.1 (2026-06-24)
+Platform: aarch64-apple-darwin25.4.0
+Running under: macOS Tahoe 26.6.2
+
+Matrix products: default
+BLAS:   /opt/homebrew/Cellar/openblas/0.3.34/lib/libopenblasp-r0.3.34.dylib 
+LAPACK: /opt/homebrew/Cellar/r/4.6.1/lib/R/lib/libRlapack.dylib;  LAPACK version 3.12.1
+
+locale:
+[1] C.UTF-8/C.UTF-8/C.UTF-8/POSIX/C.UTF-8/C.UTF-8
+
+time zone: America/Los_Angeles
+tzcode source: internal
+
+attached base packages:
+[1] stats     graphics  grDevices utils     datasets  methods   base     
+
+other attached packages:
+[1] readxl_1.5.0 sf_1.1-2    
+
+loaded via a namespace (and not attached):
+ [1] s2_1.1.11          cellranger_1.1.0   magrittr_2.0.5     e1071_1.7-17       glue_1.8.1         KernSmooth_2.23-26
+ [7] tibble_3.3.1       pkgconfig_2.0.3    lifecycle_1.0.5    classInt_0.4-11    wk_0.9.5           cli_3.6.6         
+[13] vctrs_0.7.3        grid_4.6.1         DBI_1.3.0          proxy_0.4-29       class_7.3-23       compiler_4.6.1    
+[19] tools_4.6.1        pillar_1.11.1      Rcpp_1.1.2         otel_0.2.0         rlang_1.3.0        units_1.0-1       
